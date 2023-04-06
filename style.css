@@ -1,0 +1,278 @@
+* {
+  padding: 0;
+  margin: 0;
+  box-sizing: border-box;
+}
+
+:root {
+  --moderate-blue: hsl(238, 40%, 52%);
+  --soft-red: hsl(358, 79%, 66%);
+  --light-grayish-blue: hsl(239, 57%, 85%);
+  --pale-red: hsl(357, 100%, 86%);
+  --dark-blue: hsl(212, 24%, 26%);
+  --grayish-blue: hsl(211, 10%, 45%);
+  --light-gray: hsl(223, 19%, 93%);
+  --very-light-gray: hsl(228, 33%, 97%);
+  --white: hsl(0, 0%, 100%);
+}
+
+body {
+  font-family: "Rubik", sans-serif;
+  font-size: 16px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  background: var(--very-light-gray);
+}
+
+main {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 50%;
+  height: 97vh;
+  gap: 1.3rem;
+  margin: 3rem 0;
+}
+
+.card {
+  display: flex;
+  background: var(--white);
+  width: 100%;
+  border-radius: 0.4rem;
+  min-height: 80px;
+  padding: 1.3rem 1.2rem;
+  gap: 1rem;
+}
+
+#add-comment img {
+  width: 2.3rem;
+  height: 2.3rem;
+}
+
+#add-comment textarea {
+  display: flex;
+  width: 100%;
+  padding: 1rem;
+  border-radius: 0.4rem;
+  font-family: "Rubik", sans-serif;
+  outline: 2px solid var(--light-gray);
+  border: none;
+  cursor: pointer;
+  overflow: hidden;
+  resize: none;
+}
+
+#add-comment textarea:focus {
+  outline: 2px solid var(--moderate-blue);
+}
+
+#add-comment button {
+  height: 2.3rem;
+  width: 6rem;
+  border-radius: 0.4rem;
+  font-family: "Rubik", sans-serif;
+  background: var(--moderate-blue);
+  color: var(--white);
+  border: none;
+}
+
+.comment-container {
+  overflow: hidden;
+}
+
+.comment-container .card .like-container {
+  display: flex;
+  flex-direction: column;
+  border-radius: 0.5rem;
+  height: 75px;
+  width: 30px;
+  background: var(--light-gray);
+}
+
+.comment-container .card .like-container button {
+  border: none;
+  height: 25px;
+  width: 100%;
+  font-family: "Rubik", sans-serif;
+  color: var(--moderate-blue);
+  background: none;
+  font-weight: 500;
+  font-size: 1.1rem;
+  opacity: 0.3;
+  transition: opacity 0.2s;
+  cursor: pointer;
+}
+
+.comment-container .card .like-container button:hover {
+  opacity: 1;
+}
+
+.comment-container .card .like-container .value-container {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--moderate-blue);
+  font-weight: 500;
+  font-size: 0.8rem;
+  height: 25px;
+}
+
+.comment-container .card .user-related-container {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  height: 100%;
+  gap: 0.6rem;
+  font-size: 0.8rem;
+}
+
+.comment-container .card .user-related-container .user-details {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.comment-container .card .user-related-container .user-details .user-info {
+  display: flex;
+  gap: 0.8rem;
+}
+
+.comment-container .card .user-related-container .user-details .user-info img {
+  width: 1.5rem;
+  height: 1.5rem;
+}
+
+.comment-container
+  .card
+  .user-related-container
+  .user-details
+  .user-info
+  .user-name {
+  display: inline-flex;
+  align-items: center;
+  font-weight: 500;
+  gap: 0.3rem;
+}
+
+.comment-container
+  .card
+  .user-related-container
+  .user-details
+  .user-info
+  .user-name
+  .you-user {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  align-self: center;
+  background: var(--moderate-blue);
+  color: var(--white);
+  width: 30px;
+  border-radius: 4px;
+  height: 15px;
+  font-size: 0.7rem;
+  font-weight: 400;
+}
+
+.comment-container
+  .card
+  .user-related-container
+  .user-details
+  .user-info
+  .comment-date {
+  display: inline-flex;
+  align-items: center;
+  color: var(--grayish-blue);
+}
+
+.comment-container
+  .card
+  .user-related-container
+  .user-details
+  .button-container {
+  display: flex;
+}
+
+.comment-container
+  .card
+  .user-related-container
+  .user-details
+  .button-container
+  .reply-button {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-family: "Rubik", sans-serif;
+  font-weight: 500;
+  color: var(--moderate-blue);
+  gap: 0.3rem;
+  height: 1.5rem;
+  width: 3rem;
+  border: none;
+  background: none;
+  cursor: pointer;
+}
+
+.comment-container
+  .card
+  .user-related-container
+  .user-details
+  .button-container
+  .delete-button {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-family: "Rubik", sans-serif;
+  font-weight: 500;
+  color: var(--soft-red);
+  gap: 0.3rem;
+  height: 1.5rem;
+  width: 6rem;
+  border: none;
+  background: none;
+  cursor: pointer;
+}
+
+.comment-container .card .user-related-container span {
+  color: var(--grayish-blue);
+}
+
+.comment-container .card .user-related-container span span {
+  color: var(--moderate-blue);
+  font-weight: 700;
+}
+
+.reply-container {
+  display: flex;
+  margin-top: 1.3rem;
+  height: 100%;
+}
+
+.reply-container .separator-container {
+  display: flex;
+  justify-content: center;
+  height: 100%;
+  width: 80px;
+}
+
+.reply-container .separator-container .separator {
+  height: 100%;
+  width: 2.2px;
+  background: var(--light-gray);
+}
+
+.reply-container .replies {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  width: 100%;
+}
+
+.attribution {
+  font-size: 11px;
+  text-align: center;
+}
+.attribution a {
+  color: hsl(228, 45%, 44%);
+}
