@@ -14,6 +14,7 @@
   --light-gray: hsl(223, 19%, 93%);
   --very-light-gray: hsl(228, 33%, 97%);
   --white: hsl(0, 0%, 100%);
+  --overlay: hsla(0, 0%, 0%, 0.5);
 }
 
 body {
@@ -23,6 +24,77 @@ body {
   flex-direction: column;
   align-items: center;
   background: var(--very-light-gray);
+  line-height: 1.1rem;
+}
+
+.dialog-overlay {
+  position: fixed;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+  height: 100%;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: var(--overlay);
+  z-index: 1;
+}
+
+.dialog-overlay .dialog-card {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  width: 350px;
+  height: fit-content;
+  z-index: 2;
+  background: var(--white);
+  border-radius: 0.5rem;
+  padding: 25px;
+}
+
+.dialog-overlay .dialog-card .dialog-title {
+  font-size: 1.4rem;
+  font-weight: 500;
+  color: var(--dark-blue);
+}
+
+.dialog-overlay .dialog-card .dialog-message {
+  font-size: 0.9rem;
+  color: var(--grayish-blue);
+}
+
+.dialog-overlay .dialog-card .dialog-buttons-container {
+  display: flex;
+  justify-content: space-between;
+  width: 100%;
+}
+
+.dialog-overlay .dialog-card .dialog-buttons-container button {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 48%;
+  height: 48px;
+  border: none;
+  border-radius: 10px;
+  cursor: pointer;
+}
+
+.dialog-overlay .dialog-card .dialog-buttons-container button span {
+  font-family: "Rubik", sans-serif;
+  font-weight: 500;
+  font-size: 0.9rem;
+  color: var(--white);
+}
+
+.dialog-overlay .dialog-card .dialog-buttons-container .no-button {
+  background: var(--grayish-blue);
+}
+
+.dialog-overlay .dialog-card .dialog-buttons-container .yes-button {
+  background: var(--soft-red);
 }
 
 main {
@@ -30,7 +102,7 @@ main {
   flex-direction: column;
   align-items: center;
   width: 50%;
-  height: 97vh;
+  height: 97%;
   gap: 1.3rem;
   margin: 3rem 0;
 }
@@ -50,7 +122,7 @@ main {
   height: 2.3rem;
 }
 
-#add-comment textarea {
+textarea {
   display: flex;
   width: 100%;
   padding: 1rem;
@@ -63,22 +135,34 @@ main {
   resize: none;
 }
 
-#add-comment textarea:focus {
+textarea:focus {
   outline: 2px solid var(--moderate-blue);
 }
 
-#add-comment button {
+button {
   height: 2.3rem;
-  width: 6rem;
+  width: 5rem;
   border-radius: 0.4rem;
   font-family: "Rubik", sans-serif;
   background: var(--moderate-blue);
   color: var(--white);
   border: none;
+  cursor: pointer;
+  opacity: 1;
+  transition: opacity 0.3s;
+}
+
+#add-comment button {
+  width: 6.5rem;
+}
+
+button:hover {
+  opacity: 0.6;
 }
 
 .comment-container {
   overflow: hidden;
+  width: 100%;
 }
 
 .comment-container .card .like-container {
@@ -100,7 +184,7 @@ main {
   font-weight: 500;
   font-size: 1.1rem;
   opacity: 0.3;
-  transition: opacity 0.2s;
+  transition: opacity 0.3s;
   cursor: pointer;
 }
 
@@ -173,6 +257,18 @@ main {
   height: 15px;
   font-size: 0.7rem;
   font-weight: 400;
+  opacity: 1;
+  transition: opacity 0.3s;
+}
+
+.comment-container
+  .card
+  .user-related-container
+  .user-details
+  .user-info
+  .user-name
+  .you-user:hover {
+  opacity: 0.6;
 }
 
 .comment-container
@@ -205,13 +301,33 @@ main {
   align-items: center;
   font-family: "Rubik", sans-serif;
   font-weight: 500;
-  color: var(--moderate-blue);
   gap: 0.3rem;
   height: 1.5rem;
   width: 3rem;
   border: none;
   background: none;
   cursor: pointer;
+  opacity: 1;
+  transition: opacity 0.3s;
+}
+
+.comment-container
+  .card
+  .user-related-container
+  .user-details
+  .button-container
+  .reply-button:hover {
+  opacity: 0.6;
+}
+
+.comment-container
+  .card
+  .user-related-container
+  .user-details
+  .button-container
+  .reply-button
+  span {
+  color: var(--moderate-blue);
 }
 
 .comment-container
@@ -225,13 +341,33 @@ main {
   align-items: center;
   font-family: "Rubik", sans-serif;
   font-weight: 500;
-  color: var(--soft-red);
   gap: 0.3rem;
   height: 1.5rem;
   width: 6rem;
   border: none;
   background: none;
   cursor: pointer;
+  opacity: 1;
+  transition: opacity 0.3s;
+}
+
+.comment-container
+  .card
+  .user-related-container
+  .user-details
+  .button-container
+  .delete-button:hover {
+  opacity: 0.6;
+}
+
+.comment-container
+  .card
+  .user-related-container
+  .user-details
+  .button-container
+  .delete-button
+  span {
+  color: var(--soft-red);
 }
 
 .comment-container .card .user-related-container span {
@@ -241,6 +377,14 @@ main {
 .comment-container .card .user-related-container span span {
   color: var(--moderate-blue);
   font-weight: 700;
+}
+
+.comment-container .card .user-related-container .update-button-container {
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+  width: 100%;
+  height: fit-content;
 }
 
 .reply-container {
