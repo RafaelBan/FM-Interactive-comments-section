@@ -103,7 +103,7 @@ main {
   align-items: center;
   width: 50%;
   height: 97%;
-  gap: 1.3rem;
+  gap: 1rem;
   margin: 3rem 0;
 }
 
@@ -115,11 +115,6 @@ main {
   min-height: 80px;
   padding: 1.3rem 1.2rem;
   gap: 1rem;
-}
-
-#add-comment img {
-  width: 2.3rem;
-  height: 2.3rem;
 }
 
 textarea {
@@ -152,17 +147,21 @@ button {
   transition: opacity 0.3s;
 }
 
-#add-comment button {
-  width: 6.5rem;
-}
-
 button:hover {
   opacity: 0.6;
 }
 
 .comment-container {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
   overflow: hidden;
   width: 100%;
+}
+
+.comment-container .card img {
+  width: 2.3rem;
+  height: 2.3rem;
 }
 
 .comment-container .card .like-container {
@@ -326,6 +325,17 @@ button:hover {
   .user-details
   .button-container
   .reply-button
+  img {
+  height: 0.8rem;
+  width: 0.8rem;
+}
+
+.comment-container
+  .card
+  .user-related-container
+  .user-details
+  .button-container
+  .reply-button
   span {
   color: var(--moderate-blue);
 }
@@ -366,6 +376,17 @@ button:hover {
   .user-details
   .button-container
   .delete-button
+  img {
+  height: 0.8rem;
+  width: 0.6rem;
+}
+
+.comment-container
+  .card
+  .user-related-container
+  .user-details
+  .button-container
+  .delete-button
   span {
   color: var(--soft-red);
 }
@@ -389,7 +410,7 @@ button:hover {
 
 .reply-container {
   display: flex;
-  margin-top: 1.3rem;
+  margin-top: 1rem;
   height: 100%;
 }
 

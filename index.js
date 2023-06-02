@@ -14,22 +14,21 @@ if (window.localStorage.getItem("currentUser") === null) {
 
 let currentUser = JSON.parse(window.localStorage.getItem("currentUser"));
 let comments = JSON.parse(window.localStorage.getItem("comments"));
-let addComment = document.querySelector("#add-comment");
 
 comments.sort((a, b) => parseFloat(b.score) - parseFloat(a.score));
 
-let currentUserImg = addComment.querySelector("img");
-currentUserImg.src = currentUser["image"]["webp"];
+let main = document.querySelector("main div");
+let addComment = createAddComment(main, currentUser);
 
 for (let comment of comments) {
   let commentContainer = document.createElement("div");
   commentContainer.classList.add("comment-container");
   commentContainer.id = comment["id"];
   addComment.before(commentContainer);
-  createComment(currentUser["username"], comment, commentContainer);
+  createComment(currentUser, comment, commentContainer);
 }
 
-function createComment(currentUserName, comment, commentContainer) {
+function createComment(currentUser, comment, commentContainer) {
   commentContainer.classList.add("comment-container");
   commentContainer.id = comment["id"];
 
@@ -38,12 +37,12 @@ function createComment(currentUserName, comment, commentContainer) {
   commentContainer.appendChild(commentCard);
 
   commentCard.appendChild(buildLikeFeature(comment));
-  commentCard.appendChild(buildCommentContent(currentUserName, comment));
+  commentCard.appendChild(
+    buildCommentContent(commentCard, currentUser, comment)
+  );
 
   if (comment.hasOwnProperty("replies") && comment["replies"].length) {
-    commentContainer.appendChild(
-      buildCommentResponse(currentUserName, comment)
-    );
+    commentContainer.appendChild(buildCommentResponse(currentUser, comment));
   }
 }
 
@@ -64,27 +63,25 @@ function buildLikeFeature(comment) {
   return likeContainer;
 }
 
-function buildCommentContent(currentUserName, comment) {
+function buildCommentContent(commentCard, currentUser, comment) {
   let userRelated = document.createElement("div");
   userRelated.classList.add("user-related-container");
-  userRelated.appendChild(buildUserDetails(currentUserName, comment));
+  userRelated.appendChild(buildUserDetails(commentCard, currentUser, comment));
   userRelated.appendChild(buildComment(comment));
 
   return userRelated;
 }
 
-function buildUserDetails(currentUserName, comment) {
+function buildUserDetails(commentCard, currentUser, comment) {
   let userDetails = document.createElement("div");
   userDetails.classList.add("user-details");
-  userDetails.appendChild(
-    buildUserAndCommentSpecific(currentUserName, comment)
-  );
-  userDetails.appendChild(buildUserButtons(currentUserName, comment));
+  userDetails.appendChild(buildUserAndCommentSpecific(currentUser, comment));
+  userDetails.appendChild(buildUserButtons(commentCard, currentUser, comment));
 
   return userDetails;
 }
 
-function buildUserAndCommentSpecific(currentUserName, comment) {
+function buildUserAndCommentSpecific(currentUser, comment) {
   let userInfo = document.createElement("div");
   userInfo.classList.add("user-info");
   let userIcon = document.createElement("img");
@@ -93,7 +90,7 @@ function buildUserAndCommentSpecific(currentUserName, comment) {
   let userName = document.createElement("span");
   userName.innerHTML = comment["user"]["username"];
   userName.classList.add("user-name");
-  if (comment["user"]["username"] === currentUserName) {
+  if (comment["user"]["username"] === currentUser["username"]) {
     let youUser = document.createElement("div");
     youUser.classList.add("you-user");
     youUser.innerHTML = "you";
@@ -109,11 +106,11 @@ function buildUserAndCommentSpecific(currentUserName, comment) {
   return userInfo;
 }
 
-function buildUserButtons(currentUserName, comment) {
+function buildUserButtons(commentCard, currentUser, comment) {
   let buttonContainer = document.createElement("div");
   buttonContainer.classList.add("button-container");
 
-  if (comment["user"]["username"] === currentUserName) {
+  if (comment["user"]["username"] === currentUser["username"]) {
     let deleteButton = document.createElement("button");
     deleteButton.classList.add("delete-button");
     deleteButton.addEventListener("click", showDeleteOverlay, false);
@@ -138,6 +135,11 @@ function buildUserButtons(currentUserName, comment) {
   } else {
     let replyButton = document.createElement("button");
     replyButton.classList.add("reply-button");
+    replyButton.addEventListener(
+      "click",
+      createAddComment.bind(null, commentCard, currentUser),
+      false
+    );
     buttonContainer.appendChild(replyButton);
     let replyButtonIcon = document.createElement("img");
     replyButtonIcon.src = "./images/icon-reply.svg";
@@ -161,7 +163,7 @@ function buildComment(comment) {
   return commentContent;
 }
 
-function buildCommentResponse(currentUserName, comment) {
+function buildCommentResponse(currentUser, comment) {
   let repliesContainer = document.createElement("div");
   repliesContainer.classList.add("reply-container");
   let separatorContainer = document.createElement("div");
@@ -177,19 +179,15 @@ function buildCommentResponse(currentUserName, comment) {
   for (let reply of comment["replies"]) {
     let replyCard = document.createElement("div");
     replies.appendChild(replyCard);
-    createComment(currentUserName, reply, replyCard);
+    createComment(currentUser, reply, replyCard);
   }
 
   return repliesContainer;
 }
 
-let commentSend = document.querySelector("#commentSend");
-commentSend.addEventListener("click", addNewComment, false);
-
-function addNewComment() {
+function addNewComment(addComment, commentField, ev) {
   let currentUser = JSON.parse(window.localStorage.getItem("currentUser"));
   let comments = JSON.parse(window.localStorage.getItem("comments"));
-  let commentField = document.querySelector("#commentField");
   if (commentField && commentField.value != "") {
     let newComment = {
       id: getNewIndex(comments),
@@ -202,7 +200,6 @@ function addNewComment() {
     commentField.value = "";
     comments.push(newComment);
     window.localStorage.setItem("comments", JSON.stringify(comments));
-    let addComment = document.querySelector("#add-comment");
     let commentContainer = document.createElement("div");
     addComment.before(commentContainer);
     createComment(currentUser["username"], newComment, commentContainer);
@@ -346,4 +343,29 @@ function getNewIndex(comments) {
     }
   }
   return lastIndex + 1;
+}
+
+function createAddComment(commentContainer, currentUser) {
+  let card = document.createElement("div");
+  card.classList.add("card");
+  commentContainer.after(card);
+
+  let img = document.createElement("img");
+  img.src = currentUser["image"]["webp"];
+  card.appendChild(img);
+
+  let textArea = document.createElement("textarea");
+  textArea.placeholder = "Add a comment...";
+  card.appendChild(textArea);
+
+  let button = document.createElement("button");
+  button.innerHTML = "SEND";
+  button.addEventListener(
+    "click",
+    addNewComment.bind(null, card, textArea),
+    false
+  );
+  card.appendChild(button);
+
+  return card;
 }
